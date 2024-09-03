@@ -13,6 +13,10 @@ This project works by creating the color gradient effects as the window box back
 **For further explanation, look at the following mechanism below.**
 ![plot](./mechanism.png)
 
+## Screenshots
+![plot](./Screenshot-1.png)
+![plot](./Screenshot-2.png)
+
 ## FAQ
 ### 1. How do I execute this project?
 Copy this project's folder to "xampp/htdocs" directory, open the browser, and then type "localhost/dynamic-gradient-panel". If you don't have XAMPP, you need to install it first. This won't work if you open the index.html directly, because there will be something wrong with the CORS of the JS canvas (read the 4th question).
