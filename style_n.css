@@ -1,0 +1,93 @@
+body {
+    margin: 0;
+    padding: 0;
+  }
+
+  html.noscroll {
+    position: fixed; 
+    overflow-y: scroll;
+    width: 100%;
+}
+
+h1 {
+    font-size:32pt;
+    font-family: sans-serif;
+    text-align: center;
+    margin-top: 25pt;
+    white-space: pre;
+    color: rgba(255,255,255,.5);
+}
+
+h3 {
+    font-family: sans-serif;
+    visibility: hidden;
+    text-align: center;
+    color: rgba(255,255,255,.5);
+}
+
+p {
+  font-family: sans-serif;
+  text-shadow: 0px 0px 15px white;
+}
+
+.titlepos {
+    position: absolute;
+    top: 0;
+left: 0;
+right: 0;
+bottom: 0;
+margin: auto;
+}
+
+.canvas {
+
+}
+
+.bgtint {
+    pointer-events:none;
+    user-select: none;
+}
+
+.dynamicbox {
+    position: fixed;
+    left: 164px;
+    top: 209px;
+    display:block;
+    visibility: hidden;
+    width: 311px;
+    height: 177px;
+    min-width: 50px;
+    min-height: 50px;
+    border-radius: 12px;
+    background-color: rgba(255,255,255,0);
+    /*background-blend-mode: lighten;*/
+    box-shadow: 0px 0px 8px black;
+    z-index: 10;
+}
+
+.resizable .resizers .resizer{
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    position: absolute;
+  }
+  .resizable .resizers .resizer.top-left {
+    left: -5px;
+    top: -5px;
+    cursor: nwse-resize; /*resizer cursor*/
+  }
+  .resizable .resizers .resizer.top-right {
+    right: -5px;
+    top: -5px;
+    cursor: nesw-resize;
+  }
+  .resizable .resizers .resizer.bottom-left {
+    left: -5px;
+    bottom: -5px;
+    cursor: nesw-resize;
+  }
+  .resizable .resizers .resizer.bottom-right {
+    right: -5px;
+    bottom: -5px;
+    cursor: nwse-resize;
+  }

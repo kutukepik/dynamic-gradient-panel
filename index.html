@@ -1,0 +1,524 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Dynamic Gradient Panel - The Alternative to Glassmorphism</title>
+    <link rel="stylesheet" href="style_n.css">
+    <script type="text/javascript" src="https://code.jquery.com/jquery-1.7.1.min.js"></script>
+    <script type="text/javascript" src="https://html2canvas.hertzen.com/dist/html2canvas.min.js"></script>
+    <!--script src="https://cdn.jsdelivr.net/npm/robotjs@0.6.0/index.min.js"></script-->
+</head>
+
+<body>
+
+  <div id="inner">
+    <div class="titlepos">
+    <h1>Wait until the background image fully loads,<br>then click the page area to begin.</h1>
+    <h3>(Hold Ctrl key to resize)</h3>
+</div>
+
+    <img id="bgtint" class="bgtint" src="./beautiful-nature-mountain-scenery-with-flowers-free-photo.webp" style="width: 100%;">
+  </div>
+
+     <div class="dynamicbox resizable" id="movablebox1" onmousedown="makeObjectToDrag(this);">
+            <div class='resizers'>
+              <div class='resizer top-left'></div>
+              <div class='resizer top-right'></div>
+              <div class='resizer bottom-left'></div>
+              <div class='resizer bottom-right'></div>
+            </div>
+            <div style="border-radius: inherit;">
+            <div id="bgvtop" style="width: 100% !important; height: 100% !important; display: inline-block !important; margin: 0 !important; padding: 0 !important; position: absolute; border-top-left-radius: inherit; border-radius: inherit;"></div>
+            <div id="bgvcen" style="width: 100% !important; height: 100% !important; display: inline-block !important; margin: 0 !important; padding: 0 !important; position: absolute; bottom: 0; border-bottom-left-radius: inherit; border-bottom-right-radius: inherit;
+            mask: linear-gradient(to top, rgba(0,0,0, 1) 50%,  rgba(0,0,0, 0) 100%)"></div>
+            <div id="bgvbot" style="width: 100% !important; height: 100% !important; display: inline-block !important; margin: 0 !important; padding: 0 !important; position: absolute; bottom: 0; border-bottom-left-radius: inherit; border-bottom-right-radius: inherit;
+            mask: linear-gradient(to top, rgba(0,0,0, 1) 0%,  rgba(0,0,0, 0) 50%)"></div>
+            </div>
+            <div style="border-radius: inherit; opacity: .5;">
+            <div id="bghlef" style="width: 100% !important; height: 100% !important; display: inline-block !important; margin: 0 !important; padding: 0 !important; position: absolute; border-top-left-radius: inherit; border-radius: inherit;"></div>
+            <div id="bghcen" style="width: 100% !important; height: 100% !important; display: inline-block !important; margin: 0 !important; padding: 0 !important; position: absolute; bottom: 0; border-top-right-radius: inherit; border-bottom-right-radius: inherit;
+            mask: linear-gradient(to left, rgba(0,0,0, 1) 50%,  rgba(0,0,0, 0) 100%)"></div>
+            <div id="bghrig" style="width: 100% !important; height: 100% !important; display: inline-block !important; margin: 0 !important; padding: 0 !important; position: absolute; bottom: 0; border-top-right-radius: inherit; border-bottom-right-radius: inherit;
+            mask: linear-gradient(to left, rgba(0,0,0, 1) 0%,  rgba(0,0,0, 0) 50%)"></div>
+            </div>
+            <div style="position: absolute !important; width: 100% !important; height: 100% !important; display: flex;
+            align-items: center;
+            justify-content: center;">
+              <p style="position: relative !important; text-align:center;">Lorem ipsum is simply dummy text.</p>
+            </div>
+    </div>
+
+</body>
+
+<script>
+
+  const rgbToHex = (r, g, b) => {
+    return "#" + ((1 << 24) + (r << 16) + (g << 8) + b).toString(16).slice(1);
+  }
+
+function scaleImageData(originalImageData, targetWidth, targetHeight) {
+    const targetImageData = new ImageData(targetWidth, targetHeight);
+    const h1 = originalImageData.height;
+    const w1 = originalImageData.width;
+    const h2 = targetImageData.height;
+    const w2 = targetImageData.width;
+    const kh = h1 / h2;
+    const kw = w1 / w2;
+    const cur_img1pixel_sum = new Int32Array(4);
+    for (let i2 = 0; i2 < h2; i2 += 1) {
+        for (let j2 = 0; j2 < w2; j2 += 1) {
+            for (let i in cur_img1pixel_sum) cur_img1pixel_sum[i] = 0;
+            let cur_img1pixel_n = 0;
+            for (let i1 = Math.ceil(i2 * kh); i1 < (i2 + 1) * kh; i1 += 1) {
+                for (let j1 = Math.ceil(j2 * kw); j1 < (j2 + 1) * kw; j1 += 1) {
+                    const cur_p1 = (i1 * w1 + j1) * 4;
+                    for (let k = 0; k < 4; k += 1) {
+                        cur_img1pixel_sum[k] += originalImageData.data[cur_p1 + k];
+                    };
+                    cur_img1pixel_n += 1;
+                };
+            };
+            const cur_p2 = (i2 * w2 + j2) * 4;
+            for (let k = 0; k < 4; k += 1) {
+                targetImageData.data[cur_p2 + k] = cur_img1pixel_sum[k] / cur_img1pixel_n;
+            };
+        };
+    };
+    return targetImageData;
+};
+
+function getHorizontalPixels(x, y, width) {
+  var col, colors = {};
+  var p = scaleImageData(prectx.getImageData(x, y + window.scrollY, width, 1), parseInt(width * .027), 1);
+  var r,g,b,a;
+  var colarray = [];
+  r = g = b = a = 0;
+  for (var i = 0, data = p.data; i < data.length; i += 4) {
+        r = data[i];
+        g = data[i + 1];
+        b = data[i + 2];
+        a = data[i + 3]; 
+        
+        col = rgbToHex(r, g, b);
+        if (!colors[col])
+            colors[col] = 0;
+        colarray.push("#" + ((1 << 24) + (r << 16) + (g << 8) + b).toString(16).slice(1));
+        colors[col]++;
+  }
+  return colarray;
+}
+
+function getVerticalPixels(x, y, height) {
+  var col, colors = {};
+  var p = scaleImageData(prectx.getImageData(x, y + window.scrollY, 1, height), 1, parseInt(height * .027));
+  var r,g,b,a;
+  let colarray = [];
+  r = g = b = a = 0;
+  for (var i = 0, data = p.data; i < data.length; i += 4) {
+        r = data[i];
+        g = data[i + 1];
+        b = data[i + 2];
+        a = data[i + 3]; 
+        
+        col = rgbToHex(r, g, b);
+        if (!colors[col])
+            colors[col] = 0;
+        colarray.push("#" + ((1 << 24) + (r << 16) + (g << 8) + b).toString(16).slice(1));
+        colors[col]++;
+  }
+  return colarray;
+}
+
+let prectx;
+let boxelem;
+let initiated = false;
+
+let topedge;
+let horzcenter;
+let bottomedge;
+let leftedge;
+let vertcenter;
+let rightedge;
+let topPixels;
+let leftPixels;
+let rightPixels;
+let bottomPixels;
+
+let resizeormove = false;
+
+window.scrollTo(0, 0);
+
+if ($(document).height() > $(window).height()) {
+     var scrollTop = ($('html').scrollTop()) ? $('html').scrollTop() : $('body').scrollTop(); // Works for Chrome, Firefox, IE...
+     $('html').addClass('noscroll').css('top',-scrollTop);     
+}  
+
+$(window).on("click", function(ev) {
+  
+  if (!initiated) {
+  boxelem = document.getElementById('movablebox1');
+  html2canvas(document.getElementById('inner'), {
+        allowTaint: true,
+        useCORS: true
+    }).then(canvas => {
+    prectx = canvas.getContext('2d');
+     prectx.drawImage(canvas,0,0,1,1);
+     // Top left corner
+     topedge = getHorizontalPixels(parseInt(document.getElementById('movablebox1').getClientRects()[0].left) + 12, parseInt(document.getElementById('movablebox1').getClientRects()[0].top) + 12, 300 - 12);
+        horzcenter = getHorizontalPixels(parseInt(document.getElementById('movablebox1').getClientRects()[0].left) + 12, parseInt(document.getElementById('movablebox1').getClientRects()[0].top) + (document.getElementById('movablebox1').getBoundingClientRect().height / 2), document.getElementById('movablebox1').getBoundingClientRect().width - 12);
+        bottomedge = getHorizontalPixels(parseInt(document.getElementById('movablebox1').getClientRects()[0].left) + 12, parseInt(document.getElementById('movablebox1').getClientRects()[0].top) + document.getElementById('movablebox1').getBoundingClientRect().height - 12, document.getElementById('movablebox1').getBoundingClientRect().width - 12);
+        leftedge = getVerticalPixels(parseInt(document.getElementById('movablebox1').getClientRects()[0].left) + 12, parseInt(document.getElementById('movablebox1').getClientRects()[0].top) + 12, document.getElementById('movablebox1').getBoundingClientRect().height - 12);
+        vertcenter = getVerticalPixels(parseInt(document.getElementById('movablebox1').getClientRects()[0].left) + (document.getElementById('movablebox1').getBoundingClientRect().width / 2), parseInt(document.getElementById('movablebox1').getClientRects()[0].top) + 12, document.getElementById('movablebox1').getBoundingClientRect().height - 12);
+        rightedge = getVerticalPixels(parseInt(document.getElementById('movablebox1').getClientRects()[0].left) + document.getElementById('movablebox1').getBoundingClientRect().width - 12, parseInt(document.getElementById('movablebox1').getClientRects()[0].top) + 12, document.getElementById('movablebox1').getBoundingClientRect().height - 12);
+
+var topjstring = "";
+var horzcenjstring = "";
+var bottomjstring = "";
+var leftjstring = "";
+var vertcenjstring = "";
+var rightjstring = "";
+
+for (i = 0; i < topedge.length; i+=1) {
+    topjstring += topedge[i] + ",";
+    horzcenjstring += horzcenter[i] + ",";
+    bottomjstring += bottomedge[i] + ",";
+}
+
+for (i = 0; i < leftedge.length; i+=1) {
+  leftjstring += leftedge[i] + ",";
+  vertcenjstring += vertcenter[i] + ",";
+  rightjstring += rightedge[i] + ",";
+}
+
+topjstring = topjstring.substring(0, topjstring.length - 1);
+horzcenjstring = horzcenjstring.substring(0, horzcenjstring.length - 1);
+bottomjstring = bottomjstring.substring(0, bottomjstring.length - 1);
+leftjstring = leftjstring.substring(0, leftjstring.length - 1);
+vertcenjstring = vertcenjstring.substring(0, vertcenjstring.length - 1);
+rightjstring = rightjstring.substring(0, rightjstring.length - 1);
+
+document.getElementById("bgvtop").style.background = "linear-gradient(to right, "+topjstring+")";
+document.getElementById("bgvcen").style.background = "linear-gradient(to right, "+horzcenjstring+")";
+document.getElementById("bgvbot").style.background = "linear-gradient(to right, "+bottomjstring+")";
+document.getElementById("bghlef").style.background = "linear-gradient(to bottom, "+leftjstring+")";
+document.getElementById("bghcen").style.background = "linear-gradient(to bottom, "+vertcenjstring+")";
+document.getElementById("bghrig").style.background = "linear-gradient(to bottom, "+rightjstring+")";
+
+  });
+
+document.getElementsByTagName('h1')[0].textContent = "Please move the box around here.\r\n You can also resize the box.";
+boxelem.style.visibility = "visible";
+document.getElementsByTagName('h3')[0].style.visibility = "visible";
+
+var scrollTop = parseInt($('html').css('top'));
+$('html').removeClass('noscroll');
+$('html,body').scrollTop(-scrollTop);
+       
+ initiated = true;
+
+}
+
+});
+
+
+document.addEventListener("scroll", (event) => {
+
+        topedge = getHorizontalPixels(parseInt(boxelem.getClientRects()[0].left) + 12, parseInt(boxelem.getClientRects()[0].top) + 12, boxelem.getBoundingClientRect().width - 12);
+        horzcenter = getHorizontalPixels(parseInt(boxelem.getClientRects()[0].left) + 12, parseInt(boxelem.getClientRects()[0].top) + (boxelem.getBoundingClientRect().height / 2), boxelem.getBoundingClientRect().width - 12);
+        bottomedge = getHorizontalPixels(parseInt(boxelem.getClientRects()[0].left) + 12, parseInt(boxelem.getClientRects()[0].top) + boxelem.getBoundingClientRect().height - 12, boxelem.getBoundingClientRect().width - 12);
+        leftedge = getVerticalPixels(parseInt(boxelem.getClientRects()[0].left) + 12, parseInt(boxelem.getClientRects()[0].top) + 12, boxelem.getBoundingClientRect().height - 12);
+        vertcenter = getVerticalPixels(parseInt(boxelem.getClientRects()[0].left) + (boxelem.getBoundingClientRect().width / 2), parseInt(boxelem.getClientRects()[0].top) + 12, boxelem.getBoundingClientRect().height - 12);
+        rightedge = getVerticalPixels(parseInt(boxelem.getClientRects()[0].left) + boxelem.getBoundingClientRect().width - 12, parseInt(boxelem.getClientRects()[0].top) + 12, boxelem.getBoundingClientRect().height - 12);
+        
+        var topjstring = "";
+        var horzcenjstring = "";
+        var bottomjstring = "";
+        var leftjstring = "";
+        var vertcenjstring = "";
+        var rightjstring = "";
+
+        for (i = 0; i < topedge.length; i+=1) {
+            topjstring += topedge[i] + ",";
+            horzcenjstring += horzcenter[i] + ",";
+            bottomjstring += bottomedge[i] + ",";
+        }
+
+        for (i = 0; i < leftedge.length; i+=1) {
+          leftjstring += leftedge[i] + ",";
+          vertcenjstring += vertcenter[i] + ",";
+          rightjstring += rightedge[i] + ",";
+        }
+
+        topjstring = topjstring.substring(0, topjstring.length - 1);
+        horzcenjstring = horzcenjstring.substring(0, horzcenjstring.length - 1);
+        bottomjstring = bottomjstring.substring(0, bottomjstring.length - 1);
+        leftjstring = leftjstring.substring(0, leftjstring.length - 1);
+        vertcenjstring = vertcenjstring.substring(0, vertcenjstring.length - 1);
+        rightjstring = rightjstring.substring(0, rightjstring.length - 1);
+        
+        document.getElementById("bgvtop").style.background = "linear-gradient(to right, "+topjstring+")";
+        document.getElementById("bgvcen").style.background = "linear-gradient(to right, "+horzcenjstring+")";
+        document.getElementById("bgvbot").style.background = "linear-gradient(to right, "+bottomjstring+")";
+        document.getElementById("bghlef").style.background = "linear-gradient(to bottom, "+leftjstring+")";
+        document.getElementById("bghcen").style.background = "linear-gradient(to bottom, "+vertcenjstring+")";
+        document.getElementById("bghrig").style.background = "linear-gradient(to bottom, "+rightjstring+")";
+
+});
+
+function makeResizableDiv(div) {
+  const element = document.querySelector(div);
+  const resizers = document.querySelectorAll(div + ' .resizer')
+  const minimum_size = 20;
+  let original_width = 0;
+  let original_height = 0;
+  let original_x = 0;
+  let original_y = 0;
+  let original_mouse_x = 0;
+  let original_mouse_y = 0;
+  for (let i = 0;i < resizers.length; i++) {
+    const currentResizer = resizers[i];
+    currentResizer.addEventListener('mousedown', function(e) {
+      e.preventDefault()
+      original_width = parseFloat(getComputedStyle(element, null).getPropertyValue('width').replace('px', ''));
+      original_height = parseFloat(getComputedStyle(element, null).getPropertyValue('height').replace('px', ''));
+      original_x = element.getBoundingClientRect().left;
+      original_y = element.getBoundingClientRect().top;
+      original_mouse_x = e.pageX;
+      original_mouse_y = e.pageY;
+      window.addEventListener('mousemove', resize)
+      window.addEventListener('mouseup', stopResize)
+    })
+    
+    function resize(e) {
+        if (resizeormove) {
+      if (currentResizer.classList.contains('bottom-right')) {
+        const width = original_width + (e.pageX - original_mouse_x);
+        const height = original_height + (e.pageY - original_mouse_y)
+        if (width > minimum_size) {
+          element.style.width = width + 'px'
+        }
+        if (height > minimum_size) {
+          element.style.height = height + 'px'
+        }
+      }
+      else if (currentResizer.classList.contains('bottom-left')) {
+        const height = original_height + (e.pageY - original_mouse_y)
+        const width = original_width - (e.pageX - original_mouse_x)
+        if (height > minimum_size) {
+          element.style.height = height + 'px'
+        }
+        if (width > minimum_size) {
+          element.style.width = width + 'px'
+          element.style.left = original_x + (e.pageX - original_mouse_x) + 'px'
+        }
+      }
+      else if (currentResizer.classList.contains('top-right')) {
+        const width = original_width + (e.pageX - original_mouse_x)
+        const height = original_height - (e.pageY - original_mouse_y)
+        if (width > minimum_size) {
+          element.style.width = width + 'px'
+        }
+        if (height > minimum_size) {
+          element.style.height = height + 'px'
+          element.style.top = original_y + (e.pageY - original_mouse_y) + 'px'
+        }
+      }
+      else {
+        const width = original_width - (e.pageX - original_mouse_x)
+        const height = original_height - (e.pageY - original_mouse_y)
+        if (width > minimum_size) {
+          element.style.width = width + 'px'
+          element.style.left = original_x + (e.pageX - original_mouse_x) + 'px'
+        }
+        if (height > minimum_size) {
+          element.style.height = height + 'px'
+          element.style.top = original_y + (e.pageY - original_mouse_y) + 'px'
+        }
+      }
+
+      topedge = getHorizontalPixels(parseInt(boxelem.getClientRects()[0].left) + 12, parseInt(boxelem.getClientRects()[0].top) + 12, boxelem.getBoundingClientRect().width - 12);
+        horzcenter = getHorizontalPixels(parseInt(boxelem.getClientRects()[0].left) + 12, parseInt(boxelem.getClientRects()[0].top) + (boxelem.getBoundingClientRect().height / 2), boxelem.getBoundingClientRect().width - 12);
+        bottomedge = getHorizontalPixels(parseInt(boxelem.getClientRects()[0].left) + 12, parseInt(boxelem.getClientRects()[0].top) + boxelem.getBoundingClientRect().height - 12, boxelem.getBoundingClientRect().width - 12);
+        leftedge = getVerticalPixels(parseInt(boxelem.getClientRects()[0].left) + 12, parseInt(boxelem.getClientRects()[0].top) + 12, boxelem.getBoundingClientRect().height - 12);
+        vertcenter = getVerticalPixels(parseInt(boxelem.getClientRects()[0].left) + (boxelem.getBoundingClientRect().width / 2), parseInt(boxelem.getClientRects()[0].top) + 12, boxelem.getBoundingClientRect().height - 12);
+        rightedge = getVerticalPixels(parseInt(boxelem.getClientRects()[0].left) + boxelem.getBoundingClientRect().width - 12, parseInt(boxelem.getClientRects()[0].top) + 12, boxelem.getBoundingClientRect().height - 12);
+        
+        var topjstring = "";
+        var horzcenjstring = "";
+        var bottomjstring = "";
+        var leftjstring = "";
+        var vertcenjstring = "";
+        var rightjstring = "";
+
+        for (i = 0; i < topedge.length; i+=1) {
+            topjstring += topedge[i] + ",";
+            horzcenjstring += horzcenter[i] + ",";
+            bottomjstring += bottomedge[i] + ",";
+        }
+
+        for (i = 0; i < leftedge.length; i+=1) {
+          leftjstring += leftedge[i] + ",";
+          vertcenjstring += vertcenter[i] + ",";
+          rightjstring += rightedge[i] + ",";
+        }
+
+        topjstring = topjstring.substring(0, topjstring.length - 1);
+        horzcenjstring = horzcenjstring.substring(0, horzcenjstring.length - 1);
+        bottomjstring = bottomjstring.substring(0, bottomjstring.length - 1);
+        leftjstring = leftjstring.substring(0, leftjstring.length - 1);
+        vertcenjstring = vertcenjstring.substring(0, vertcenjstring.length - 1);
+        rightjstring = rightjstring.substring(0, rightjstring.length - 1);
+        
+        document.getElementById("bgvtop").style.background = "linear-gradient(to right, "+topjstring+")";
+        document.getElementById("bgvcen").style.background = "linear-gradient(to right, "+horzcenjstring+")";
+        document.getElementById("bgvbot").style.background = "linear-gradient(to right, "+bottomjstring+")";
+        document.getElementById("bghlef").style.background = "linear-gradient(to bottom, "+leftjstring+")";
+        document.getElementById("bghcen").style.background = "linear-gradient(to bottom, "+vertcenjstring+")";
+        document.getElementById("bghrig").style.background = "linear-gradient(to bottom, "+rightjstring+")";
+
+    } else {
+        stopResize();
+    }
+    }
+    
+    function stopResize() {
+      window.removeEventListener('mousemove', resize)
+    }
+  }
+}
+
+makeResizableDiv('.resizable')
+
+document.addEventListener('keydown', (event) => {
+
+    const keyPressed = event.key;
+
+    if (keyPressed === 'Control') {
+        event.preventDefault();
+        resizeormove = true;
+    }
+});
+
+document.addEventListener('keyup', (event) => {
+
+const keyHeld = event.key;
+
+if (keyHeld === 'Control') {
+    event.preventDefault();
+    resizeormove = false;
+}
+});
+
+
+    var cursor = {
+    x: 0,
+    y: 0
+};
+var dragobj = null,
+    h1, i1, oLeft, oTop;
+
+function rel(ob) {
+    if (ob) {
+        return document.getElementById(ob)
+    } else {
+        return null
+    }
+}
+
+function gTxt(ob, txt) {
+    rel(ob).innerHTML = txt;
+}
+
+function makeObjectToDrag(obj) {
+    if (obj) {
+        dragobj = rel(obj.id);
+        document.onmousedown = startMove;
+        document.onmouseup = drop;
+        document.onmousemove = moving;
+    }
+}
+
+function startMove(e) {
+    if (dragobj) {
+        getCursorPos(e);
+        i1 = cursor.x - dragobj.offsetLeft;
+        h1 = cursor.y - dragobj.offsetTop;
+    }
+}
+
+function drop() {
+    if (dragobj) {
+        dragobj = null;
+    }
+}
+
+async function getCursorPos(e) {
+    e = e || window.event;
+    if (e.pageX || e.pageY) {
+        cursor.x = e.pageX;
+        cursor.y = e.pageY;
+    } else {
+        var de = document.documentElement;
+        var db = document.body;
+        cursor.x = e.clientX +
+            (de.scrollLeft || db.scrollLeft) - (de.clientLeft || 0);
+        cursor.y = e.clientY +
+            (de.scrollTop || db.scrollTop) - (de.clientTop || 0);
+    }
+    return cursor;
+}
+
+async function moving(e) {
+    getCursorPos(e);
+    if (dragobj && !resizeormove) {
+        oLeft = cursor.x - i1;
+        oTop = cursor.y - h1;
+        dragobj.style.left = oLeft + 'px';
+        dragobj.style.top = oTop + 'px';
+
+        topedge = getHorizontalPixels(parseInt(boxelem.style.left) + 12, parseInt(boxelem.style.top) + 12, boxelem.getBoundingClientRect().width - 12);
+        horzcenter = getHorizontalPixels(parseInt(boxelem.style.left) + 12, parseInt(boxelem.style.top) + (boxelem.getBoundingClientRect().height / 2), boxelem.getBoundingClientRect().width - 12);
+        bottomedge = getHorizontalPixels(parseInt(boxelem.style.left) + 12, parseInt(boxelem.style.top) + boxelem.getBoundingClientRect().height - 12, boxelem.getBoundingClientRect().width - 12);
+        leftedge = getVerticalPixels(parseInt(boxelem.style.left) + 12, parseInt(boxelem.style.top) + 12, boxelem.getBoundingClientRect().height - 12);
+        vertcenter = getVerticalPixels(parseInt(boxelem.style.left) + (boxelem.getBoundingClientRect().width / 2), parseInt(boxelem.style.top) + 12, boxelem.getBoundingClientRect().height - 12);
+        rightedge = getVerticalPixels(parseInt(boxelem.style.left) + boxelem.getBoundingClientRect().width - 12, parseInt(boxelem.style.top) + 12, boxelem.getBoundingClientRect().height - 12);
+
+        var topjstring = "";
+        var horzcenjstring = "";
+        var bottomjstring = "";
+        var leftjstring = "";
+        var vertcenjstring = "";
+        var rightjstring = "";
+
+        for (i = 0; i < topedge.length; i+=1) {
+            topjstring += topedge[i] + ",";
+            horzcenjstring += horzcenter[i] + ",";
+            bottomjstring += bottomedge[i] + ",";
+        }
+
+        for (i = 0; i < leftedge.length; i+=1) {
+          leftjstring += leftedge[i] + ",";
+          vertcenjstring += vertcenter[i] + ",";
+          rightjstring += rightedge[i] + ",";
+        }
+
+        topjstring = topjstring.substring(0, topjstring.length - 1);
+        horzcenjstring = horzcenjstring.substring(0, horzcenjstring.length - 1);
+        bottomjstring = bottomjstring.substring(0, bottomjstring.length - 1);
+        leftjstring = leftjstring.substring(0, leftjstring.length - 1);
+        vertcenjstring = vertcenjstring.substring(0, vertcenjstring.length - 1);
+        rightjstring = rightjstring.substring(0, rightjstring.length - 1);
+        
+        document.getElementById("bgvtop").style.background = "linear-gradient(to right, "+topjstring+")";
+        document.getElementById("bgvcen").style.background = "linear-gradient(to right, "+horzcenjstring+")";
+        document.getElementById("bgvbot").style.background = "linear-gradient(to right, "+bottomjstring+")";
+        document.getElementById("bghlef").style.background = "linear-gradient(to bottom, "+leftjstring+")";
+        document.getElementById("bghcen").style.background = "linear-gradient(to bottom, "+vertcenjstring+")";
+        document.getElementById("bghrig").style.background = "linear-gradient(to bottom, "+rightjstring+")";
+
+    }
+}
+
+</script>
+
+</html>
