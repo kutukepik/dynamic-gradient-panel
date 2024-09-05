@@ -1,5 +1,5 @@
 # Dynamic Gradient Panel - The Glassmorphism Alternative for UI Design
-This project is the closest alternative to the Glassmorphism trend (which the window box background blends with everything behind it using the Gaussian Blur filter) for UI design. This project has quite similar effect to Glassmorphism. However, unlike the conventional Glassmorphism one that uses Gaussian Blur, this doesn't need much computations which heavily impact the performance and consume much power.
+This project method is the closest alternative to the Glassmorphism trend (which the window box background blends with everything behind it using the Gaussian Blur filter) for UI design. This project has quite similar effect to Glassmorphism. However, unlike the conventional Glassmorphism one that uses Gaussian Blur, this doesn't need much computations which heavily impact the performance and consume much power.
 
 ## Advantages
 - Performance-Friendly
@@ -9,7 +9,7 @@ This project is the closest alternative to the Glassmorphism trend (which the wi
 - Power Saving
 
 ## How it works
-This project works by creating the color gradient effects as the window box background, and the gradient colors dynamically changing when moved or resized by picking the real-time colors behind the window box using the 'pixel pickers', then the picked pixels are downscaled using nearest neighbor before being rendered to the window box's background by casting the pixels as gradient points (the gradient points count the same as the downscaled pixels).\
+This project method works by creating the color gradient effects as the window box background, and the gradient colors dynamically changing when moved or resized by picking the real-time colors behind the window box using the 'pixel pickers', then the picked pixels are downscaled using nearest neighbor before being rendered to the window box's background by casting the pixels as gradient points (the gradient points count the same as the downscaled pixels).\
 **For further explanation, look at the following mechanism below.**
 ![plot](./mechanism.png)
 
