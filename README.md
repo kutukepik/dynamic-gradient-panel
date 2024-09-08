@@ -17,6 +17,14 @@ This project method works by creating the color gradient effects as the window b
 ![plot](./Screenshot-1.png)
 ![plot](./Screenshot-2.png)
 
+## Glassmorphism History Timeline
+- **Early 2000s** -> used in video game UIs for consoles (PS2, GameCube, Xbox)
+- **2006** -> Microsoft's Windows Vista Aero glass theme
+- **2013** -> Apple's iOS 7 theme
+- **2015** -> Windows 10 Fluent theme
+- **2017 to 2020s** -> massive usages in websites being skyrocketed (CSS Backdrop-filter:blur)
+- **2024** -> Replaced by the relatively more lightweight and power-saving method, which uses gradient manipulations instead of the heavy gaussian blur filter algorithm
+
 ## FAQ
 ### 1. How do I execute this project?
 Copy this project's folder to "xampp/htdocs" directory, open the browser, and then type "localhost/dynamic-gradient-panel". If you don't have XAMPP, you need to install it first. This won't work if you open the index.html directly, because there will be something wrong with the CORS of the JS canvas (read the 4th question).
