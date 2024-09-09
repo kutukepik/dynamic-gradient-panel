@@ -18,7 +18,7 @@ This project method works by creating the color gradient effects as the window b
 ![plot](./Screenshot-2.png)
 
 ## Glassmorphism History Timeline
-- **Early 2000s** -> Exclusively used in video game UIs for consoles (PS2, GameCube, Xbox)
+- **Early 2000s** -> Exclusively used in video game UIs for 6th gen consoles (PS2, GameCube, Xbox)
 - **2006** -> Microsoft's Windows Vista Aero glass theme
 - **2013** -> Apple's iOS 7 theme
 - **2015** -> Windows 10 Fluent theme
