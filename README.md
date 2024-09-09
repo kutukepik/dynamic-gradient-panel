@@ -22,8 +22,8 @@ This project method works by creating the color gradient effects as the window b
 - **2006** -> Microsoft's Windows Vista Aero glass theme
 - **2013** -> Apple's iOS 7 theme
 - **2015** -> Windows 10 Fluent theme
-- **2017 to 2020s** -> massive usages in websites being skyrocketed (CSS Backdrop-filter:blur)
-- **2024** -> Replaced by the relatively more lightweight and power-saving method, which uses gradient manipulations instead of the heavy gaussian blur filter algorithm
+- **2017 to 2020s** -> Massive usages in websites being skyrocketed (CSS Backdrop-filter:blur)
+- **2024** -> Starts to be replaced by the relatively more lightweight and power-saving method, which uses gradient manipulations instead of the heavy gaussian blur filter algorithm
 
 ## FAQ
 ### 1. How do I execute this project?
