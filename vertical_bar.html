@@ -101,7 +101,7 @@ function getHorizontalPixels(x, y, width) {
 
 function getVerticalPixels(x, y, height) {
   var col, colors = {};
-  var p = scaleImageData(prectx.getImageData(x, y + window.scrollY, 1, height), 1, parseInt(height * .027));
+  var p = scaleImageData(prectx.getImageData(x, y + window.scrollY, 1, height), 1, parseInt(height * .015));
   var r,g,b,a;
   let colarray = [];
   r = g = b = a = 0;
