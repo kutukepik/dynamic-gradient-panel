@@ -80,7 +80,7 @@ function scaleImageData(originalImageData, targetWidth, targetHeight) {
 
 function getHorizontalPixels(x, y, width) {
   var col, colors = {};
-  var p = scaleImageData(prectx.getImageData(x, y + window.scrollY, width, 1), parseInt(width * .027), 1);
+  var p = scaleImageData(prectx.getImageData(x, y + window.scrollY, width, 1), parseInt(width * .015), 1);
   var r,g,b,a;
   var colarray = [];
   r = g = b = a = 0;
