@@ -14,43 +14,26 @@
   <div id="inner">
     <div class="titlepos">
     <h1>Wait until the background image fully loads,<br>then click the page area to begin.</h1>
-    <h3>(Hold Ctrl key to resize)</h3>
-    <p><a href="./horizontal_bar.html">Click here for the horizontal bar simulation</a><br>
-    <a href="./vertical_bar.html">Click here for the vertical bar simulation</a></p>
+    <h3>(Hold Ctrl key to adjust)</h3>
+    <p><a href=".">Click here to go back to the window box simulation</a><br>
+      <a href="./horizontal_bar.html">Click here for the horizontal bar simulation</a></p>
 </div>
 
     <img id="bgtint" class="bgtint" src="./beautiful-nature-mountain-scenery-with-flowers-free-photo.webp" style="width: 100%;">
   </div>
 
-     <div class="dynamicbox resizable" id="movablebox1" onmousedown="makeObjectToDrag(this);">
+     <div class="dynamicslidev resizable" id="movablebox1" onmousedown="makeObjectToDrag(this);">
             <div class='resizers'>
-              <div class='resizer top-left'></div>
-              <div class='resizer top-right'></div>
-              <div class='resizer bottom-left'></div>
-              <div class='resizer bottom-right'></div>
-              <div class='resizer h-left'></div>
-              <div class='resizer h-right'></div>
               <div class='resizer v-top'></div>
               <div class='resizer v-bottom'></div>
             </div>
             <div style="border-radius: inherit;">
-            <div id="bgvtop" style="width: 100% !important; height: 100% !important; display: inline-block !important; margin: 0 !important; padding: 0 !important; position: absolute; border-top-left-radius: inherit; border-radius: inherit;"></div>
-            <div id="bgvcen" style="width: 100% !important; height: 100% !important; display: inline-block !important; margin: 0 !important; padding: 0 !important; position: absolute; bottom: 0; border-bottom-left-radius: inherit; border-bottom-right-radius: inherit;
-            mask: linear-gradient(to top, rgba(0,0,0, 1) 50%,  rgba(0,0,0, 0) 100%)"></div>
-            <div id="bgvbot" style="width: 100% !important; height: 100% !important; display: inline-block !important; margin: 0 !important; padding: 0 !important; position: absolute; bottom: 0; border-bottom-left-radius: inherit; border-bottom-right-radius: inherit;
-            mask: linear-gradient(to top, rgba(0,0,0, 1) 0%,  rgba(0,0,0, 0) 50%)"></div>
-            </div>
-            <div style="border-radius: inherit; opacity: .5;">
-            <div id="bghlef" style="width: 100% !important; height: 100% !important; display: inline-block !important; margin: 0 !important; padding: 0 !important; position: absolute; border-top-left-radius: inherit; border-radius: inherit;"></div>
-            <div id="bghcen" style="width: 100% !important; height: 100% !important; display: inline-block !important; margin: 0 !important; padding: 0 !important; position: absolute; bottom: 0; border-top-right-radius: inherit; border-bottom-right-radius: inherit;
-            mask: linear-gradient(to left, rgba(0,0,0, 1) 50%,  rgba(0,0,0, 0) 100%)"></div>
-            <div id="bghrig" style="width: 100% !important; height: 100% !important; display: inline-block !important; margin: 0 !important; padding: 0 !important; position: absolute; bottom: 0; border-top-right-radius: inherit; border-bottom-right-radius: inherit;
-            mask: linear-gradient(to left, rgba(0,0,0, 1) 0%,  rgba(0,0,0, 0) 50%)"></div>
+            <div id="bgh" style="width: 100% !important; height: 100% !important; display: inline-block !important; margin: 0 !important; padding: 0 !important; position: absolute; border-radius: inherit;"></div>
             </div>
             <div style="position: absolute !important; width: 100% !important; height: 100% !important; display: flex;
             align-items: center;
             justify-content: center;">
-              <p style="position: relative !important; text-align:center;">Lorem ipsum is simply dummy text.</p>
+              <p style="position: relative !important; text-align:center;" id="verticaltext">Lorem ipsum is simply dummy text.</p>
             </div>
     </div>
 
@@ -205,16 +188,12 @@ leftjstring = leftjstring.substring(0, leftjstring.length - 1);
 vertcenjstring = vertcenjstring.substring(0, vertcenjstring.length - 1);
 rightjstring = rightjstring.substring(0, rightjstring.length - 1);
 
-document.getElementById("bgvtop").style.background = "linear-gradient(to right, "+topjstring+")";
-document.getElementById("bgvcen").style.background = "linear-gradient(to right, "+horzcenjstring+")";
-document.getElementById("bgvbot").style.background = "linear-gradient(to right, "+bottomjstring+")";
-document.getElementById("bghlef").style.background = "linear-gradient(to bottom, "+leftjstring+")";
-document.getElementById("bghcen").style.background = "linear-gradient(to bottom, "+vertcenjstring+")";
-document.getElementById("bghrig").style.background = "linear-gradient(to bottom, "+rightjstring+")";
+document.getElementById("bgh").style.background = "linear-gradient(to bottom, "+vertcenjstring+")";
+document.getElementById("verticaltext").innerText = document.getElementById('movablebox1').getBoundingClientRect().height;
 
   });
 
-document.getElementsByTagName('h1')[0].textContent = "Please move the box around here.\r\n You can also resize the box.";
+document.getElementsByTagName('h1')[0].textContent = "Please move the vertical bar around here.\r\n You can also adjust the height.";
 boxelem.style.visibility = "visible";
 document.getElementsByTagName('h3')[0].style.visibility = "visible";
 document.getElementsByTagName('p')[0].style.visibility = "visible";
@@ -266,12 +245,8 @@ document.addEventListener("scroll", (event) => {
         vertcenjstring = vertcenjstring.substring(0, vertcenjstring.length - 1);
         rightjstring = rightjstring.substring(0, rightjstring.length - 1);
         
-        document.getElementById("bgvtop").style.background = "linear-gradient(to right, "+topjstring+")";
-        document.getElementById("bgvcen").style.background = "linear-gradient(to right, "+horzcenjstring+")";
-        document.getElementById("bgvbot").style.background = "linear-gradient(to right, "+bottomjstring+")";
-        document.getElementById("bghlef").style.background = "linear-gradient(to bottom, "+leftjstring+")";
-        document.getElementById("bghcen").style.background = "linear-gradient(to bottom, "+vertcenjstring+")";
-        document.getElementById("bghrig").style.background = "linear-gradient(to bottom, "+rightjstring+")";
+        document.getElementById("bgh").style.background = "linear-gradient(to bottom, "+vertcenjstring+")";
+        document.getElementById("verticaltext").innerText = boxelem.getBoundingClientRect().height;
 
 });
 
@@ -404,13 +379,9 @@ function makeResizableDiv(div) {
         leftjstring = leftjstring.substring(0, leftjstring.length - 1);
         vertcenjstring = vertcenjstring.substring(0, vertcenjstring.length - 1);
         rightjstring = rightjstring.substring(0, rightjstring.length - 1);
-        
-        document.getElementById("bgvtop").style.background = "linear-gradient(to right, "+topjstring+")";
-        document.getElementById("bgvcen").style.background = "linear-gradient(to right, "+horzcenjstring+")";
-        document.getElementById("bgvbot").style.background = "linear-gradient(to right, "+bottomjstring+")";
-        document.getElementById("bghlef").style.background = "linear-gradient(to bottom, "+leftjstring+")";
-        document.getElementById("bghcen").style.background = "linear-gradient(to bottom, "+vertcenjstring+")";
-        document.getElementById("bghrig").style.background = "linear-gradient(to bottom, "+rightjstring+")";
+
+        document.getElementById("bgh").style.background = "linear-gradient(to bottom, "+vertcenjstring+")";
+        document.getElementById("verticaltext").innerText = boxelem.getBoundingClientRect().height;
 
     } else {
         stopResize();
@@ -545,12 +516,8 @@ async function moving(e) {
         vertcenjstring = vertcenjstring.substring(0, vertcenjstring.length - 1);
         rightjstring = rightjstring.substring(0, rightjstring.length - 1);
         
-        document.getElementById("bgvtop").style.background = "linear-gradient(to right, "+topjstring+")";
-        document.getElementById("bgvcen").style.background = "linear-gradient(to right, "+horzcenjstring+")";
-        document.getElementById("bgvbot").style.background = "linear-gradient(to right, "+bottomjstring+")";
-        document.getElementById("bghlef").style.background = "linear-gradient(to bottom, "+leftjstring+")";
-        document.getElementById("bghcen").style.background = "linear-gradient(to bottom, "+vertcenjstring+")";
-        document.getElementById("bghrig").style.background = "linear-gradient(to bottom, "+rightjstring+")";
+        document.getElementById("bgh").style.background = "linear-gradient(to bottom, "+vertcenjstring+")";
+        document.getElementById("verticaltext").innerText = boxelem.getBoundingClientRect().height;
 
     }
 }

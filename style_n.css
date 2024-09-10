@@ -27,7 +27,9 @@ h3 {
 
 p {
   font-family: sans-serif;
+  visibility: hidden;
   text-shadow: 0px 0px 15px white;
+  text-align: center;
 }
 
 .titlepos {
@@ -65,6 +67,40 @@ margin: auto;
     z-index: 10;
 }
 
+.dynamicslideh {
+  position: fixed;
+  left: 164px;
+  top: 209px;
+  display:block;
+  visibility: hidden;
+  width: 311px;
+  height: 50px;
+  min-width: 50px;
+  min-height: 50px;
+  max-height: 50px;
+  border-radius: 50px;
+  background-color: rgba(255,255,255,0);
+  /*background-blend-mode: lighten;*/
+  box-shadow: 0px 0px 8px black;
+  z-index: 10;
+}
+
+.dynamicslidev {
+  position: fixed;
+  left: 164px;
+  top: 209px;
+  display:block;
+  visibility: hidden;
+  width: 50px;
+  height: 311px;
+  min-height: 50px;
+  border-radius: 50px;
+  background-color: rgba(255,255,255,0);
+  /*background-blend-mode: lighten;*/
+  box-shadow: 0px 0px 8px black;
+  z-index: 10;
+}
+
 .resizable .resizers .resizer{
     width: 10px;
     height: 10px;
@@ -76,6 +112,35 @@ margin: auto;
     top: -5px;
     cursor: nwse-resize; /*resizer cursor*/
   }
+
+  .resizable .resizers .resizer.h-left {
+    left: -5px;
+    top: 5px;
+    height: 90%;
+    cursor: ew-resize; /*resizer cursor*/
+  }
+
+  .resizable .resizers .resizer.h-right {
+    right: -5px;
+    top: 5px;
+    height: 90%;
+    cursor: ew-resize; /*resizer cursor*/
+  }
+
+  .resizable .resizers .resizer.v-top {
+    top: -5px;
+    left: 5px;
+    width: 90%;
+    cursor: ns-resize; /*resizer cursor*/
+  }
+
+  .resizable .resizers .resizer.v-bottom {
+    bottom: -5px;
+    left: 5px;
+    width: 90%;
+    cursor: ns-resize; /*resizer cursor*/
+  }
+
   .resizable .resizers .resizer.top-right {
     right: -5px;
     top: -5px;
